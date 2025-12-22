@@ -1,0 +1,214 @@
+{% load static %}
+{% block content %}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<div class="profile-wrapper">
+    <div class="profile-card">
+
+        <!-- LEFT -->
+        <div class="profile-left">
+            <div class="avatar-box">
+                <img src="{% if profile.avatar %}{{ profile.avatar.url }}{% else %}{% static 'avatars/default.png' %}{% endif %}" alt="Avatar">
+            </div>
+
+            <h2>{{ profile.user.username }}</h2>
+
+            {% if profile.bio %}
+                <p class="bio">{{ profile.bio }}</p>
+            {% else %}
+                <p class="bio muted">No bio added yet</p>
+            {% endif %}
+
+            <div class="actions">
+                <a href="{% url 'app:home' %}" class="btn btn-outline">
+                    <i class="fa fa-house"></i> Home
+                </a>
+
+                <a href="{% url 'app:edit_profile' %}" class="btn btn-primary">
+                    <i class="fa fa-pen"></i> Edit Profile
+                </a>
+
+                <form method="POST" action="{% url 'app:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa fa-right-from-bracket"></i> Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="profile-right">
+            <h3>Account Overview</h3>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fa fa-user"></i>
+                    <span>Username</span>
+                    <strong>{{ profile.user.username }}</strong>
+                </div>
+
+                <div class="info-card">
+                    <i class="fa fa-envelope"></i>
+                    <span>Email</span>
+                    <strong>{{ profile.user.email }}</strong>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+body{
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg,#eef2ff,#f8fafc);
+}
+
+/* Wrapper */
+.profile-wrapper{
+    min-height: 100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 15px;
+}
+
+/* Main Card */
+.profile-card{
+    width:100%;
+    max-width:1100px;
+    display:grid;
+    grid-template-columns:350px 1fr;
+    background:rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    border-radius:24px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.1);
+    overflow:hidden;
+}
+
+/* LEFT */
+.profile-left{
+    padding:40px 30px;
+    text-align:center;
+    background:linear-gradient(180deg,#ffffff,#f3f6ff);
+}
+
+.avatar-box img{
+    width:140px;
+    height:140px;
+    object-fit:cover;
+    border-radius:50%;
+    border:4px solid #4f46e5;
+    transition:0.4s;
+}
+.avatar-box img:hover{
+    transform:scale(1.12) rotate(2deg);
+    box-shadow:0 0 30px rgba(79,70,229,0.5);
+}
+
+.profile-left h2{
+    margin-top:15px;
+    font-weight:700;
+}
+
+.bio{
+    font-size:14px;
+    color:#555;
+    margin:10px 0 25px;
+}
+.muted{color:#999}
+
+/* Buttons */
+.actions{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+.btn{
+    padding:12px;
+    border-radius:50px;
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+.btn i{margin-right:6px}
+
+.btn-primary{
+    background:linear-gradient(90deg,#4f46e5,#6366f1);
+    color:#fff;
+}
+.btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 30px rgba(79,70,229,0.5);
+}
+
+.btn-outline{
+    border:2px solid #4f46e5;
+    color:#4f46e5;
+    background:transparent;
+}
+.btn-outline:hover{
+    background:#4f46e5;
+    color:#fff;
+}
+
+.btn-danger{
+    background:#ef4444;
+    color:#fff;
+}
+.btn-danger:hover{
+    background:#dc2626;
+}
+
+/* RIGHT */
+.profile-right{
+    padding:40px;
+}
+.profile-right h3{
+    font-weight:700;
+    margin-bottom:30px;
+}
+
+/* Info cards */
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+.info-card{
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    transition:0.3s;
+}
+.info-card:hover{
+    transform:translateY(-5px);
+}
+.info-card i{
+    font-size:24px;
+    color:#4f46e5;
+}
+.info-card span{
+    display:block;
+    margin-top:8px;
+    font-size:13px;
+    color:#777;
+}
+.info-card strong{
+    font-size:16px;
+}
+
+/* Responsive */
+@media(max-width:900px){
+    .profile-card{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+
+{% endblock %}

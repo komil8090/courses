@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ course.title }} - Course Detail</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    {% include 'home/navbar.html' %}
+
+    <div class="container py-5">
+        <div class="row">
+            <!-- Course Image -->
+            <div class="col-md-6 mb-3">
+                {% if course.image %}
+                    <img src="{{ course.image.url }}" alt="{{ course.title }}" class="img-fluid rounded">
+                {% else %}
+                    <img src="{% static 'img/default-course.jpg' %}" alt="{{ course.title }}" class="img-fluid rounded">
+                {% endif %}
+            </div>
+
+            <!-- Course Info -->
+            <div class="col-md-6">
+                <h1>{{ course.title }}</h1>
+                <h5 class="text-muted">Instructor: {{ course.owner.full_name }}</h5>
+                <p>{{ course.overview|default:"No description available." }}</p>
+            </div>
+        </div>
+
+        <!-- Modules Section -->
+        <div class="mt-5">
+            <h2>Modules</h2>
+            <div class="row">
+                {% for module in course.modules.all %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 shadow-sm">
+                        {% if module.image %}
+                            <img src="{{ module.image.url }}" class="card-img-top" alt="{{ module.title }}">
+                        {% else %}
+                            <img src="{% static 'img/default-module.jpg' %}" class="card-img-top" alt="{{ module.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ module.title }}</h5>
+                            <p class="card-text">{{ module.overview|truncatewords:15 }}</p>
+                            <a href="{% url 'app:module_detail' module.slug %}" class="btn btn-primary">View Contents</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted ms-3">No modules available.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+    <!-- Footer -->
+    {% include 'home/footer.html' %}
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
