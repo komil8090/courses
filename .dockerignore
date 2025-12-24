@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+media/
+staticfiles/
+
+# Virtual environments
+venv/
+.env/
+.env.*
+.venv/
+
+# Environment & secrets
+.env
+.env.local
+.env.production
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Tests & docs (optional)
+tests/
+docs/
+
+# Node (if frontend present)
+node_modules/
+npm-debug.log
+yarn-error.log
